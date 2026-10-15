@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Student: Student 119 — Tabbed Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#0033a0; --brand-ink:#ffffff; --logo:#0033a0;
+  --bg:#ffffff; --ink:#222222; --muted:#555555; --line:#c9c9c9; --field:#9a9a9a;
+  --panel-a:#f3f3f3; --panel-b:#e9ecf1; --tab-active:#e6edf8; --btn:#f0f0f0; --link:#1a4fbf;
+  --input-bg:#ffffff; --badge:#d9393e; --crumb:#fff8d6; --crumb-line:#e5d58a;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 Lato,"Segoe UI",Helvetica,Arial,sans-serif}
+a{color:var(--link)}
+button,input,select,textarea{font:inherit;color:inherit}
+
+/* header */
+.top{display:flex;align-items:center;gap:24px;padding:10px 18px;flex-wrap:wrap}
+.logo{font-size:30px;font-weight:900;color:var(--logo);letter-spacing:-.5px;white-space:nowrap}
+.logo span{font-weight:400}
+.finds{display:flex;gap:24px;flex:1;justify-content:center;flex-wrap:wrap}
+.find{display:flex}
+.find input{width:210px;max-width:46vw;padding:7px 10px;border:1px solid var(--line);border-right:0;border-radius:3px 0 0 3px;background:var(--input-bg)}
+.find button{padding:6px 12px;border:1px solid var(--line);background:var(--btn);border-radius:0 3px 3px 0;cursor:pointer}
+.userbox{text-align:right;font-size:13px}
+.userbox b{font-weight:900}
+.userbox nav{display:flex;gap:12px;margin-top:4px;flex-wrap:wrap;justify-content:flex-end}
+.userbox nav a{color:var(--ink);text-decoration:none}
+.nav{background:var(--brand);color:var(--brand-ink);display:flex;align-items:center;padding:0 18px;min-height:50px;overflow-x:auto}
+.nav a{color:var(--brand-ink);text-decoration:none;font-size:16px;padding:0 11px;border-left:1px solid rgba(255,255,255,.35);white-space:nowrap}
+.nav a:first-child{border-left:0;padding-left:0;font-size:20px}
+.nav .spacer{flex:1}
+.nav .icon{border:0;font-size:22px}
+
+.page{padding:0 16px 40px}
+h1{font-size:28px;margin:12px 0 14px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-weight:700}
+.newlook{font-size:15px;font-weight:400;border:1px solid var(--brand);color:var(--ink);background:var(--bg);border-radius:3px;padding:3px 9px}
+hr.sep{border:0;border-top:1px solid var(--line);margin:0 -16px 14px}
+.save{background:var(--brand);color:#fff;border:0;border-radius:3px;padding:8px 16px;font-weight:700;cursor:pointer}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin:16px 0 8px}
+.actions button{font-size:12px;background:var(--btn);border:1px solid var(--line);border-radius:3px;padding:4px 9px;cursor:pointer}
+.family{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--panel-a);margin:0 -16px;padding:8px 16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.family b{font-weight:700}
+.family input{border:1px solid var(--field);padding:2px 4px;width:180px;max-width:40vw;background:var(--input-bg)}
+
+/* breadcrumb / depth meter */
+.crumbs{margin:14px 0 4px;padding:8px 12px;background:var(--crumb);border:1px solid var(--crumb-line);border-radius:3px;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;justify-content:space-between}
+.crumbs .trail{font-size:13px}
+.crumbs .trail span+span::before{content:"›";margin:0 6px;color:var(--muted)}
+.crumbs .depth{font-size:13px;color:var(--muted);white-space:nowrap}
+.crumbs .depth b{color:var(--ink);font-size:16px}
+
+/* tabs */
+.level{margin-top:10px}
+.tabs{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--line);gap:2px}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:8px 10px 6px;cursor:pointer;font-size:15px;color:var(--ink);margin-bottom:-1px}
+.tab:hover{text-decoration:underline}
+.tab[aria-selected="true"]{background:var(--tab-active);border-bottom-color:var(--brand);color:var(--link)}
+.tab:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+.tab .badge{display:inline-block;background:var(--badge);color:#fff;font-size:11px;font-weight:700;border-radius:3px;padding:0 5px;margin-left:4px;vertical-align:2px}
+.panel{border:1px solid var(--line);border-top:0;padding:4px 12px 14px;background:var(--panel-a)}
+.level.odd>.panel{background:var(--panel-b)}
+.level .level .tab{font-size:14px}
+.level .level .level .tab{font-size:13px}
+.level .level .level .level .tab{font-size:12px}
+
+/* leaves */
+.leaf{padding:14px 4px 4px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row>span{min-width:140px;text-align:right;font-weight:700}
+.row input[type=text],.row input[type=number],.row select,.row textarea{border:1px solid var(--field);padding:3px 6px;background:var(--input-bg);border-radius:0}
+.row input[type=text]{width:220px;max-width:60vw}
+.row input.tiny{width:44px;text-align:center}
+.row textarea{width:min(420px,70vw);height:70px}
+.hint{color:var(--muted);font-size:12px;margin:8px 0 0}
+.ro{font-weight:700;color:var(--link)}
+.leaf .btn{background:var(--brand);color:#fff;border:0;border-radius:3px;padding:8px 16px;font-weight:700;cursor:pointer}
+.toast{margin-top:10px;padding:8px 10px;border-left:4px solid var(--brand);background:var(--tab-active)}
+
+.tablewrap{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:640px;background:var(--bg);font-size:13px}
+th{background:var(--panel-a);font-weight:700;border:1px solid var(--line);padding:6px}
+td{border:1px solid var(--line);padding:5px 6px;text-align:center}
+caption{font-weight:700;font-size:15px;padding:6px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="logo">Jackrabbit <span>Class</span></div>
+  <div class="finds">
+    <div class="find"><input placeholder="find a family..." aria-label="Find a family"><button>Go!</button></div>
+    <div class="find"><input placeholder="find a class..." aria-label="Find a class"><button>Go!</button></div>
+  </div>
+  <div class="userbox">User: <b>SHANEADMIN</b>
+    <nav><a href="#">🏠 Home</a><a href="#">📅 Calendar</a><a href="#">↗ New Window</a><a href="#">⎋ Signout</a></nav>
+  </div>
+</header>
+<nav class="nav">
+  <a href="#">⌂</a><a href="#">Dashboards</a><a href="#">Accounts</a><a href="#">Students</a><a href="#">Classes</a><a href="#">Activities</a><a href="#">Staff</a><a href="#">Transactions</a><a href="#">Store</a><a href="#">Reports</a><a href="#">Internal Support</a>
+  <span class="spacer"></span><a class="icon" href="#">⚙</a><a class="icon" href="#">?</a>
+</nav>
+
+<main class="page">
+  <h1>Student: Student 119 <span class="newlook">🎨 New Look</span></h1>
+  <hr class="sep">
+  <button class="save" id="topSave">💾 Save Changes</button>
+  <div class="actions">
+    <button>Enroll</button><button>Enroll Drop-in</button><button>Email Schedules</button><button>Info Sheet</button><button>Absence/Attendance</button><button>Submit Absences</button><button>Mass Drop Classes</button><button>Statement</button>
+  </div>
+  <div class="family">
+    <b>Family:</b> <a href="#">119</a>
+    <span style="margin-left:10px">This page has been reorganized into tabs for your convenience.</span>
+  </div>
+
+  <div class="crumbs" aria-live="polite">
+    <div class="trail" id="trail"></div>
+    <div class="depth" id="depth"></div>
+  </div>
+
+  <div id="root"></div>
+</main>
+
+<script>
+const T = (label, children, extra={}) => ({label, children, ...extra});
+const L = (label, leaf, extra={}) => ({label, leaf, ...extra});
+const text = (field, o={}) => ({type:'text', field, ...o});
+
+const classRows = [
+  ['A Foo Test','','Test','MTuWThF','Back Area','6:00pm - 7:00pm','5:00',''],
+  ['01-Jhon Day Class','Fall 2011','Adding test row\'s','MTuWThFSa','Back Area','9:15pm - 11:15pm','12:00','George Test'],
+  ['#1 Hip Hop Class','Fall 2011','Name','MTuWThF','Back Area','11:00 AM - 12:00pm','5:00','Max Walters'],
+  ['01 Test Class','Fall 2011','Test','MTuWThF','Back Area','-','2:30','(no name) Anderson'],
+];
+const classTable = `<div class="tablewrap"><table><caption>Current Enrollment</caption>
+<tr><th>Class</th><th>Session</th><th>Cat1</th><th>Days</th><th>Room</th><th>Time</th><th>Weekly Duration</th><th>Instructor</th></tr>
+${classRows.map(r=>`<tr><td><a href="#">${r[0]}</a></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]?`<a href="#">${r[7]}</a>`:''}</td></tr>`).join('')}
+<tr><th colspan="6" style="text-align:left">Total:</th><th>24:30</th><th></th></tr></table></div>`;
+const absenceTable = `<div class="tablewrap"><table><caption>Absences</caption>
+<tr><th>Date</th><th>Class</th><th>Reason</th><th>Makeup Scheduled</th></tr>
+<tr><td>9/14/2026</td><td><a href="#">#1 Hip Hop Class</a></td><td>Sick</td><td>No</td></tr>
+<tr><td>9/28/2026</td><td><a href="#">A Foo Test</a></td><td>Got lost in the tabs</td><td>Yes</td></tr>
+<tr><td>10/6/2026</td><td><a href="#">01 Test Class</a></td><td>Vacation</td><td>No</td></tr></table></div>`;
+
+const shoe = side => T(`${side} Shoe`, [
+  L('Size', text(`${side} shoe size`, {tiny:true})),
+  T('Width', [ L('Width', {type:'select', field:'Width', options:['Narrow','Medium','Wide','Extra wide']}) ]),
+  T('Laces', [ L('Has Laces?', {type:'check', field:'Has laces'}), L('Lace Color', text('Lace color')) ]),
+]);
+
+const tree = T('root', [
+  T('Student Details', [
+    T('Student Name', [
+      T('First Name', [
+        L('First Letter', text('First letter', {max:1, tiny:true, value:'S', hint:'Only one letter fits here. That is by design.'})),
+        L('Remaining Letters', text('Remaining letters', {value:'tudent'})),
+        T('Capitalization', [ L('Capitalize First Letter?', {type:'check', field:'Capitalize', checked:true}) ]),
+      ]),
+      T('Middle Initial', [
+        L('Initial', text('Initial', {max:1, tiny:true})),
+        T('Period', [
+          L('Include Period?', {type:'check', field:'Include period after initial'}),
+          T('Period Style', [ L('Style', {type:'select', field:'Period style', options:['.','·','Full stop (British)']}) ]),
+        ]),
+      ]),
+      L('Last Name', text('Last name', {value:'119'})),
+      T('Preferred Name', [
+        L('Nickname', text('Nickname')),
+        T('Nickname Approval', [
+          L('Approved By', text('Approved by')),
+          L('Approval Date', text('Approval date', {placeholder:'mm/dd/yyyy'})),
+        ]),
+      ]),
+    ]),
+    T('Student Birthdate', [
+      L('Month', text('Month', {tiny:true, value:'4'})),
+      L('Day', text('Day', {tiny:true, value:'5'})),
+      T('Year', [
+        L('Century', text('Century', {tiny:true, value:'20'})),
+        L('Rest of Year', text('Rest of year', {tiny:true, value:'09'})),
+      ]),
+      L('Age', {type:'ro', field:'Age', value:'17 yrs, 6 mths'}),
+    ]),
+    T('Student Phone', [
+      L('Area Code', text('Area code', {tiny:true, max:3})),
+      L('Prefix', text('Prefix', {tiny:true, max:3})),
+      T('Line Number', [
+        L('First Two Digits', text('First two digits', {tiny:true, max:2})),
+        L('Last Two Digits', text('Last two digits', {tiny:true, max:2})),
+      ]),
+      T('Extension', [ T('Has Extension', [ L('Has Extension?', {type:'check', field:'Has extension'}) ]), L('Extension', text('Extension', {tiny:true})) ]),
+    ]),
+    T('Student Email', [
+      L('Username', text('Part before the @')),
+      L('@', {type:'ro', field:'At sign', value:'@', hint:'This field is read-only. The @ is not negotiable.'}),
+      T('Domain', [
+        L('Domain Name', text('Domain name')),
+        T('Dot', [ L('Dot', {type:'ro', field:'Dot', value:'.'}) ]),
+        L('TLD', {type:'select', field:'Top-level domain', options:['com','net','org','edu','biz']}),
+      ]),
+      T('Opt-Out', [ T('Mass Email', [ L('Mass Email Opt-Out', {type:'check', field:'Mass email opt-out'}) ]) ]),
+    ]),
+    T('Student Classes', [
+      L('List', {type:'html', html:classTable}),
+      L('Absences', {type:'html', html:absenceTable}),
+      T('Totals', [
+        L('Class Count', {type:'ro', field:'Classes enrolled', value:'4'}),
+        T('Weekly Duration', [
+          L('Hours', {type:'ro', field:'Hours', value:'24'}),
+          L('Minutes', {type:'ro', field:'Minutes', value:'30'}),
+        ]),
+      ]),
+    ]),
+    T('Sizes', [
+      T('Height', [
+        L('Feet', text('Feet', {tiny:true})),
+        L('Inches', text('Inches', {tiny:true})),
+        T('Fractions of an Inch', [ L('Sixteenths', text('Sixteenths', {tiny:true, hint:'For students who are exactly 4\' 11 and 7/16".'})) ]),
+      ]),
+      T('Waist', [ L('Inches', text('Waist inches', {tiny:true})) ]),
+      T('Shoes', [ shoe('Left'), shoe('Right') ]),
+      T('Leotard', [ L('Size', {type:'select', field:'Leotard size', options:['Child XS','Child S','Child M','Child L','Adult S','Adult M']}) ]),
+      T('Head', [ T('Circumference', [ L('Inches', text('Head circumference', {tiny:true})) ]) ]),
+    ]),
+    T('Status', [
+      L('Status', {type:'select', field:'Status', options:['Active','Inactive']}),
+      T('Status Confirmation', [ L('Is This Student Active?', {type:'check', field:'Yes, really active', checked:true}) ]),
+    ]),
+    T('Barcode', [
+      T('Student/Barcode ID', [
+        L('First Half', text('First half', {value:'4660', tiny:true})),
+        L('Second Half', text('Second half', {value:'803', tiny:true})),
+      ]),
+    ]),
+  ]),
+  T('Notes', [
+    L('Note 1', {type:'area', field:'Note 1', value:'Prefers the back row.'}),
+    L('Note 2', {type:'area', field:'Note 2', value:'Parent asked where the birthdate field went.'}),
+    T('Note 3', [ T('Note 3 Body', [ L('Text', {type:'area', field:'Note 3', value:'Parent found the birthdate field.'}) ]) ]),
+  ], {badge:'3'}),
+  T('Save', [
+    T('Save Changes', [
+      T('Are You Sure?', [
+        T('Really Sure?', [
+          T('Final Answer', [ L('Save', {type:'save'}) ]),
+        ]),
+      ]),
+    ]),
+  ]),
+]);
+
+const active = {};
+const values = {};
+let toast = '';
+
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function leafHtml(leaf, key){
+  const v = key in values ? values[key] : leaf.value;
+  const hint = leaf.hint ? `<p class="hint">${leaf.hint}</p>` : '';
+  switch(leaf.type){
+    case 'text': return `<label class="row"><span>${leaf.field}</span><input type="text" data-k="${key}" ${leaf.tiny?'class="tiny"':''} ${leaf.max?`maxlength="${leaf.max}"`:''} placeholder="${esc(leaf.placeholder||'')}" value="${esc(v)}"></label>${hint}`;
+    case 'check': { const c = key in values ? values[key] : leaf.checked; return `<label class="row"><span>${leaf.field}</span><input type="checkbox" data-k="${key}" ${c?'checked':''}></label>${hint}`; }
+    case 'select': return `<label class="row"><span>${leaf.field}</span><select data-k="${key}">${leaf.options.map(o=>`<option ${o===v?'selected':''}>${esc(o)}</option>`).join('')}</select></label>${hint}`;
+    case 'area': return `<label class="row"><span>${leaf.field}</span><textarea data-k="${key}">${esc(v)}</textarea></label>${hint}`;
+    case 'ro': return `<div class="row"><span>${leaf.field}</span><span class="ro">${esc(leaf.value)}</span></div>${hint}`;
+    case 'html': return leaf.html;
+    case 'save': return `<button class="btn" data-save>💾 Save Changes</button>${toast?`<div class="toast">${toast}</div>`:''}`;
+  }
+}
+
+function levelHtml(node, path, depth){
+  const idx = active[path] ?? 0;
+  const tabs = node.children.map((c,i)=>
+    `<button class="tab" role="tab" aria-selected="${i===idx}" data-p="${path}" data-i="${i}">${c.label}${c.badge?` (${c.badge})<span class="badge">${c.badge}</span>`:''}</button>`).join('');
+  const child = node.children[idx];
+  const key = `${path}/${idx}`;
+  const inner = child.children ? levelHtml(child, key, depth+1) : `<div class="leaf">${leafHtml(child.leaf, key)}</div>`;
+  return `<div class="level ${depth%2?'odd':''}"><div class="tabs" role="tablist" aria-label="${esc(node.label)}">${tabs}</div><div class="panel" role="tabpanel">${inner}</div></div>`;
+}
+
+function trail(){
+  const out=[]; let node=tree, path='r';
+  while(node.children){ const i=active[path]??0; node=node.children[i]; out.push(node.label); path+=`/${i}`; }
+  return out;
+}
+
+function render(focus){
+  document.getElementById('root').innerHTML = levelHtml(tree, 'r', 0);
+  const t = trail();
+  document.getElementById('trail').innerHTML = t.map(x=>`<span>${x}</span>`).join('');
+  document.getElementById('depth').innerHTML = `You are <b>${t.length}</b> tab${t.length>1?'s':''} deep · Clicks to reach this field: <b>${t.length}</b>`;
+  if(focus){ const b=document.querySelector(`.tab[data-p="${focus.p}"][data-i="${focus.i}"]`); b&&b.focus(); }
+}
+
+document.addEventListener('click', e=>{
+  const tab = e.target.closest('.tab');
+  if(tab){ active[tab.dataset.p] = +tab.dataset.i; toast=''; render({p:tab.dataset.p,i:tab.dataset.i}); return; }
+  if(e.target.closest('[data-save]')){
+    const n = Object.keys(values).length;
+    toast = n ? `Saved ${n} field${n>1?'s':''}. To review them, open each tab individually.` : 'Nothing to save yet. Fields are located in the other 61 tabs.';
+    render();
+  }
+});
+document.getElementById('topSave').addEventListener('click', ()=>{
+  active['r']=2; ['r/2','r/2/0','r/2/0/0','r/2/0/0/0'].forEach(p=>active[p]=0); toast=''; render();
+  document.querySelector('.crumbs').scrollIntoView({behavior:'smooth'});
+});
+document.addEventListener('input', e=>{
+  const k=e.target.dataset.k; if(!k) return;
+  values[k] = e.target.type==='checkbox' ? e.target.checked : e.target.value;
+});
+document.addEventListener('keydown', e=>{
+  const tab=e.target.closest&&e.target.closest('.tab'); if(!tab) return;
+  const sibs=[...tab.parentElement.children]; let i=sibs.indexOf(tab);
+  if(e.key==='ArrowRight') i=(i+1)%sibs.length; else if(e.key==='ArrowLeft') i=(i-1+sibs.length)%sibs.length; else return;
+  e.preventDefault(); active[tab.dataset.p]=i; render({p:tab.dataset.p,i});
+});
+
+render();
+</script>
+</body>
+</html>
